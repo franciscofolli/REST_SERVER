@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <script>
+        $( document ).ready(function() {
+            $("#formId").submit(function(e){
+                e.preventDefault();
+
+                //var data = {}
+                var json = ConvertFormToJSON("#formId");
+                var Form = this;
+                alert(JSON.stringify(json));
+                //alert(JSON.stringify($(Form).serialize()));
+                //alert(JSON.stringify($(Form).serializeArray()));
+                //alert(json );
+
+
+                //Save Form Data........
+                $.ajax({
+                    cache: false,
+                    url : 'http://192.168.15.251:8866/rest/appticketdfs/v1/servicedesk/create/',
+                    type: "POST",
+                    dataType : "json",
+					headers : {
+						"Authorization" : 'Basic ' + btoa('fabio.desk:abc123'),
+						"Content-Type": "application/json",
+						"XToken" : "1234567890",
+						"token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbl90aW1lIjoiMTcuMDc6MzYiLCJsb2dpbl9kYXRlIjoiMDIvMDIvMjAyMCIsImV4cGlyZWRfZGF0ZSI6IjAyLzAyLzIwMjAiLCJlbWFpbCI6ImZhYmlvLmZsb3JlbmNvQGRmc3Npc3RlbWFzLmNvbS5iciAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiLCJleHBpcmVkX3RpbWUiOiIxODowNzowMCIsImVtcHJlc2EiOiIwMDAwMDYiLCJzeXN0ZW0iOiJBUFAtREZTIiwiaWRVc2VyIjoiMDAwMDAzIn0=.CcSOpZU950n6xwa1/17DrN/SkpNM7aC6xO8Zu7e2tt0=",
+						"Host" : "192.168.15.251:8866",
+						"Connection" : "keep-alive",
+						"Accept": "*/*"
+						
+					}, 
+					crossDomain: true,
+                    data : json,
+                    context : Form,
+                    success : function(callback){
+                        //Where $(this) => context == FORM
+                        console.log(JSON.parse(callback));
+                        $(this).html("Success!");
+                    },
+                    error : function(){
+                        $(this).html("Error!");
+                    }
+                });
+            });
+        });
+
+
+        function ConvertFormToJSON(form){
+            console.log('ConvertFormToJSON invoked!');
+            var array = jQuery(form).serializeArray();
+            var json = {};
+
+            jQuery.each(array, function() {
+                json[this.name] = this.value || '';
+            });
+
+            console.log('JSON: '+json);
+            return json;
+        }
+    </script>
+
+</head>
+
+<body>
+    <form id="formId">
+        <table>
+            <tr> 
+                <td>PRIORIDADE:</td>
+                <td><select name="priority" id="priority" >
+						<option value="0">URGENTE</option>
+						<option value="1">Alta</option>
+						<option value="2">Média</option>
+						<option value="3">Baixa</option>
+					</select> </td>
+            </tr>
+            <tr> 
+                <td>Código de usuário:</td>
+                <td><input type="text" size=100 name="IdUser" id="IdUser" value=""/></td>
+            </tr>
+            <tr> 
+                <td>Titulo do chamado:</td>
+                <td><input type="text" size=100 name="title" id="title" value=""/></td>
+            </tr>
+			<tr> 
+                <td>Categoria:</td>
+                <td><select name="idCategory" id="idCategory" >
+						<option value="001">INTERNO</option>
+						<option value="002">SISTEMA</option>
+					</select> </td>
+            </tr>
+			<tr> 
+                <td>Plataforma:</td>
+                <td><select name="idPlataform"	 id="idPlataform" >
+						<option value="000001">PROTHEUS</option>
+						<option value="000002">SAP</option>
+						<option value="000004">ORACLE</option>
+					</select> </td>
+            </tr>
+			<tr> 
+                <td>Assunto:</td>
+                <td><input type="text" size=100 name="idSubject" id="idSubject" value=""/></td>
+            </tr>
+			<tr> 
+                <td>Processo:</td>
+                <td><input type="text" size=100 name="idProcess" id="idProcess" value=""/></td>
+            </tr>
+			<tr> 
+                <td>Observador:</td>
+                <td><input type="text" size=100 name="idUsrObs"	 id="idUsrObs" value=""/></td>
+            </tr>
+			<tr> 
+                <td>Tag (pode ser deixado em branco):</td>
+                <td><input type="text" size=100 name="tag"	 id="tag" value=""/></td>
+            </tr>
+			<tr> 
+                <td>Descrição do chamado:</td>
+                <td><input type="text" size=100 name="msg" id="msg" value=""/></td>
+            </tr>
+            <tr><td><input type="submit" value="Submit" /></td></tr>
+        </table>
+    </form>
+
+</body>
+
+
+
+</html>
