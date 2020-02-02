@@ -1,0 +1,19 @@
+{
+  "name": "rest_server",
+  "version": "1.0.0",
+  "description": "This is an example of a post requisition with a form using nodejs",
+  "main": "web-server.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscofolli/REST_SERVER.git"
+  },
+  "author": "Breno Fachini",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/franciscofolli/REST_SERVER/issues"
+  },
+  "homepage": "https://github.com/franciscofolli/REST_SERVER#readme"
+}
