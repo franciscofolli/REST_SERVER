@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
     <script>
         $( document ).ready(function() {
@@ -12,6 +12,7 @@
                 //var data = {}
                 var json = ConvertFormToJSON("#formId");
                 var Form = this;
+				json = JSON.stringify(json)
                 alert(JSON.stringify(json));
                 //alert(JSON.stringify($(Form).serialize()));
                 //alert(JSON.stringify($(Form).serializeArray()));
@@ -19,52 +20,37 @@
 
 
                 //Save Form Data........
-                $.ajax({
-                    cache: false,
-                    url : 'https://192.168.15.251:8866/rest/appticketdfs/v1/servicedesk/create/',
-                    type: "POST",
-					method: 'POST',
-                    dataType : "json",
-					headers : {
-						"Authorization" : 'Basic ' + btoa('fabio.desk:abc123'),
-						"Content-Type": "application/x-www-form-urlencoded",
-						"XToken" : "1234567890",
-						"token" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbl90aW1lIjoiMDkuMzg6NDUiLCJsb2dpbl9kYXRlIjoiMDMvMDIvMjAyMCIsImV4cGlyZWRfZGF0ZSI6IjAzLzAyLzIwMjAiLCJlbWFpbCI6ImZhYmlvLmZsb3JlbmNvQGRmc3Npc3RlbWFzLmNvbS5iciAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiLCJleHBpcmVkX3RpbWUiOiIxMDozODowMCIsImVtcHJlc2EiOiIwMDAwMDYiLCJzeXN0ZW0iOiJBUFAtREZTIiwiaWRVc2VyIjoiMDAwMDAzIn0=.qJZaphBoyqNvVsKxhNN6J6H5xo7WNjVVGGF8J58hClU=",
-						//"Host" : "http://192.168.15.251:8866/",
-						//"Connection" : "keep-alive",
-						//"Accept": "*/*",
-						"Referrer Policy": "no-referrer-when-downgrade",
-						"Request-method":"POST"
-						
-					}, 
-					crossDomain: true,
-                    data : json,
-                    context : Form,
-                    success : function(callback){
-                        //Where $(this) => context == FORM
-                        console.log(JSON.parse(callback));
-                        $(this).html("Success!");
-                    },
-                    error : function(){
-                        $(this).html("Error!");
-                    }
-                });
-            });
-        });
-
-
-        function ConvertFormToJSON(form){
-            console.log('ConvertFormToJSON invoked!');
-            var array = jQuery(form).serializeArray();
-            var json = {};
-
-            jQuery.each(array, function() {
-                json[this.name] = this.value || '';
-            });
-
-            console.log('JSON: '+json);
-            return json;
-        }
+                var settings = {
+				"url": "http://192.168.15.251:8866/rest/appticketdfs/v1/servicedesk/create/",
+				"method": "POST",
+				"timeout": 0,
+				"headers": {
+				"XToken": "1234567890",
+				"token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJsb2dpbl90aW1lIjoiMDkuMzg6NDUiLCJsb2dpbl9kYXRlIjoiMDMvMDIvMjAyMCIsImV4cGlyZWRfZGF0ZSI6IjAzLzAyLzIwMjAiLCJlbWFpbCI6ImZhYmlvLmZsb3JlbmNvQGRmc3Npc3RlbWFzLmNvbS5iciAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiLCJleHBpcmVkX3RpbWUiOiIxMDozODowMCIsImVtcHJlc2EiOiIwMDAwMDYiLCJzeXN0ZW0iOiJBUFAtREZTIiwiaWRVc2VyIjoiMDAwMDAzIn0=.qJZaphBoyqNvVsKxhNN6J6H5xo7WNjVVGGF8J58hClU=",
+				"Content-Type": "application/x-www-form-urlencoded",
+				"Authorization": "Basic ZmFiaW8uZGVzazphYmMxMjM="
+				},
+				"data": json};
+				
+				$.ajax(settings).done(function (response) {
+					console.log(response);
+					});
+						});
+					});
+				
+				
+					function ConvertFormToJSON(form){
+						console.log('ConvertFormToJSON invoked!');
+						var array = jQuery(form).serializeArray();
+						var json = {};
+				
+						jQuery.each(array, function() {
+							json[this.name] = this.value || '';
+						});
+				
+						console.log('JSON: '+json);
+						return json;
+					}
     </script>
 
 </head>
